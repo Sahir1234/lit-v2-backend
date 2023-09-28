@@ -1,4 +1,4 @@
-from common import Player
+from common.Player import Player
 
 class Lobby:
 
