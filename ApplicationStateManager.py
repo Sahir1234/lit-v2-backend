@@ -22,6 +22,9 @@ class ApplicationStateManager:
     def swith_player_team_in_lobby(self, player_name: str, id: str):
         self.lobby_manager.switch_player_team_in_lobby(player_name, id)
 
+    def randomize_teams_in_lobby(self, id: str):
+        self.lobby_manager.randomize_teams(id)
+
     def remove_player_from_lobby(self, player_name: str, id: str):
         self.lobby_manager.remove_player_from_lobby(player_name, id)
         if not self.lobby_manager.is_lobby_active(id):

@@ -1,5 +1,6 @@
 from Lobby import Lobby
 from common import Player
+from errors import ClientError
 
 class LobbyManager:
 
@@ -10,7 +11,7 @@ class LobbyManager:
 
     def open_new_lobby(self, id: str) -> str:
         if id in self.lobbies.keys():
-            raise RuntimeError("Lobby with id " + id + " already exists!")
+            raise ClientError("Lobby with id " + id + " already exists!")
         self.lobbies[id] = Lobby()
         
     
@@ -18,7 +19,7 @@ class LobbyManager:
         if self.is_lobby_id_active(id):
             return self.lobbies[id]
         else:
-            raise RuntimeError("Lobby with id " + id + " does not exist!")
+            raise ClientError("Lobby with id " + id + " does not exist!")
         
 
     def is_lobby_id_active(self, id: str):
@@ -34,6 +35,11 @@ class LobbyManager:
         lobby = self.get_lobby(id)
         lobby.switch_player_team(player_name)
 
+
+    def randomize_teams(self, id: str):
+        lobby = self.get_lobby(id)
+        lobby.randomize_teams()
+        
 
     def remove_player_from_lobby(self, player_name: str, id: str):
         lobby = self.get_lobby(id)
