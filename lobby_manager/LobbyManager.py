@@ -5,12 +5,12 @@ from errors import ClientError
 class LobbyManager:
 
     def __init__(self):
-        # ID (str) -> Game
+        # ID (str) -> Lobby
         self.lobbies: dict = {}
 
 
     def open_new_lobby(self, id: str) -> str:
-        if id in self.lobbies.keys():
+        if self.is_lobby_id_active(id):
             raise ClientError("Lobby with id " + id + " already exists!")
         self.lobbies[id] = Lobby()
         
@@ -22,7 +22,7 @@ class LobbyManager:
             raise ClientError("Lobby with id " + id + " does not exist!")
         
 
-    def is_lobby_id_active(self, id: str):
+    def is_lobby_id_active(self, id: str) -> bool:
         return id in self.lobbies.keys()
 
 
@@ -51,5 +51,12 @@ class LobbyManager:
         lobby = self.get_lobby(id)
         del self.lobbies[id]
         return lobby
+    
 
-
+    def can_start_game(self, id: str) -> bool:
+        lobby = self.get_lobby(id)
+        return lobby.can_start_game()
+    
+    
+    def get_lobby_state(self, id: str) -> dict:
+        return self.get_lobby(id).get_state()
